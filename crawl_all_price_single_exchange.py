@@ -31,7 +31,10 @@ def fetch_price(get_price_func, coin):
 
 def get_all_prices(exchange_name):
     if exchange_name in exchange_who_support_all_price_list:
-        return exchanges[exchange_name].get_all_prices()
+        try:
+            return exchanges[exchange_name].get_all_prices()
+        except Exception as e:
+            return []
 
     get_price_func = exchanges[exchange_name].get_price
     with ThreadPoolExecutor(max_workers=len(interesting_coins)) as executor:
