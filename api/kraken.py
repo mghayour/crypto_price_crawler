@@ -14,11 +14,10 @@ def get_all_prices():
     if 'result' not in data or type(data['result']) != dict:
         return None
     data = data['result']
-    usd_prices = []
+    prices = []
     for key in data:
-        if key[-3:] == 'USD':
-            usd_prices.append((
-                (key[:-3], data[key]['c'][0])
-            ))
-    return usd_prices
+        prices.append((
+            (key, data[key]['c'][0])
+        ))
+    return prices
 

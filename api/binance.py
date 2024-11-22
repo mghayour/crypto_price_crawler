@@ -14,10 +14,9 @@ def get_all_prices():
     data = response.json()
     if type(data) is not list:
         return None
-    usdt_prices = []
+    prices = []
     for item in data:
-        if item['symbol'][-4:] == 'USDT':
-            usdt_prices.append((
-                (item['symbol'][:-4], item['price'])
-            ))
-    return usdt_prices
+        prices.append((
+            (item['symbol'], item['price'])
+        ))
+    return prices

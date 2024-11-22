@@ -7,4 +7,10 @@ def get_all_prices():
     data = response.json()
     if str(data['code']) != '200':
         return None
-    return [(key.split("_")[0], data['data'][key]['last']) for key in data['data']]
+    data = data['data']
+    prices = []
+    for key in data:
+        prices.append((
+            (key, data[key])
+        ))
+    return prices
