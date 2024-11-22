@@ -45,6 +45,22 @@ def get_all_prices(exchange_name):
     valid_results = [(coin, price) for coin, price, error in results if price is not None]
     return valid_results
 
+def get_and_save_all_prices(exchange, output):
+    start_time = time.time()
+    prices = get_all_prices(exchange)
+    end_time = time.time()
+    print("get_all_prices time", end_time-start_time)
+    price_dict = {}
+    price_dict['timestamp']=(end_time+start_time)/2
+    for coin, price in prices:
+        price_dict[coin] = price
+    
+    if output == "":
+        print(json.dumps(price_dict, indent=2))
+    else:
+        with open(output, 'a') as f:
+            json.dump(price_dict, f)
+            f.write('\n')
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Cryptocurrency crawling API client')
@@ -54,19 +70,7 @@ if __name__ == "__main__":
     if args.exchange not in exchanges:
         raise ValueError("Unsupported exchange: {}".format(args.exchange))
 
-    start_time = time.time()
-    prices = get_all_prices(args.exchange)
-    end_time = time.time()
-    print("get_all_prices time", end_time-start_time)
-    price_dict = {}
-    price_dict['timestamp']=(end_time+start_time)/2
-    for coin, price in prices:
-        price_dict[coin] = price
+    get_and_save_all_prices(args.exchange, args.output)
+
     
-    if args.output == "":
-        print(json.dumps(price_dict, indent=2))
-    else:
-        output = args.output
-        with open(output, 'a') as f:
-            json.dump(price_dict, f)
-            f.write('\n')
+
