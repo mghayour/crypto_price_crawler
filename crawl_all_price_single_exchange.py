@@ -42,7 +42,7 @@ def get_all_prices(exchange_name):
     valid_results = [(coin, price) for coin, price, error in results if price is not None]
 
 
-if name == "__main__":
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Cryptocurrency crawling API client')
     parser.add_argument('--exchange', help='Exchange name')
     args = parser.parse_args()
