@@ -2,7 +2,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from api import binance, coinbase, bitfinex, kucoin, gateio, kraken, huobi, okx
-
+import argparse
 
 
 def fetch_price(exchange, get_price_func, coin):
@@ -37,8 +37,11 @@ def get_coin_price(coin):
     return valid_results
 
 if __name__ == "__main__":
-    coin = "btc"  # Example coin to fetch prices for
-    prices = get_all_prices(coin)
+    parser = argparse.ArgumentParser(description='Cryptocurrency crawling API client')
+    parser.add_argument('--coin', default="btc", help='Coin name')
+    args = parser.parse_args()
+    coin = args.coin
+    prices = get_coin_price(coin)
     print(f"Prices for {coin.upper()}: {prices}")
     
 
