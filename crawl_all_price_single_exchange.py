@@ -5,6 +5,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 import json
+from datetime import datetime
 
 exchanges = {
     "bitrue": bitrue, 
@@ -62,6 +63,12 @@ def get_and_save_all_prices(exchange, output):
             json.dump(price_dict, f)
             f.write('\n')
 
+def replace_placeholder_in_filename(filename,exchange):
+    today_date = datetime.utcnow().strftime('%Y%m%d')
+    filename = filename.replace("<TODAY>", today_date)
+    filename = filename.replace("<EXCHANGE>", exchange)
+    return filename
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Cryptocurrency crawling API client')
     parser.add_argument('--exchange', help='Exchange name')
@@ -72,6 +79,7 @@ if __name__ == "__main__":
     if args.exchange not in exchanges:
         raise ValueError("Unsupported exchange: {}".format(args.exchange))
 
+    output = replace_placeholder_in_filename(args.output, args.exchange)
     start_time = time.time()
     needed_times = [start_time+i*args.delay for i in range(args.count)]
 
@@ -79,7 +87,7 @@ if __name__ == "__main__":
         start_time = needed_times[i]
         the_time = time.time()
         time.sleep(max(0, start_time-the_time))
-        get_and_save_all_prices(args.exchange, args.output)
+        get_and_save_all_prices(args.exchange, output)
 
     
 
