@@ -11,6 +11,6 @@ def get_all_prices():
     prices = []
     for key in data:
         prices.append((
-            (key, data[key])
+            (key, data[key]['last'])
         ))
     return prices
