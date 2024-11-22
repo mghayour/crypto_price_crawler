@@ -1,4 +1,4 @@
-from api import binance as exchange
+from api import kraken as exchange
 
 
 data = exchange.get_all_prices()
