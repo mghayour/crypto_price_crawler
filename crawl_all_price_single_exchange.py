@@ -66,11 +66,20 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Cryptocurrency crawling API client')
     parser.add_argument('--exchange', help='Exchange name')
     parser.add_argument('--output', default="", help='Exchange name')
+    parser.add_argument('--count', default=1, type=int, help='Number of times to fetch')
+    parser.add_argument('--delay', default=0, type=int, help='delay seconds between sampling')
     args = parser.parse_args()
     if args.exchange not in exchanges:
         raise ValueError("Unsupported exchange: {}".format(args.exchange))
 
-    get_and_save_all_prices(args.exchange, args.output)
+    start_time = time.time()
+    needed_times = [start_time+i*args.delay for i in range(args.count)]
+
+    for i in range(args.count):
+        start_time = needed_times[i]
+        the_time = time.time()
+        time.sleep(max(0, start_time-the_time))
+        get_and_save_all_prices(args.exchange, args.output)
 
     
 
