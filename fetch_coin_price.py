@@ -13,7 +13,7 @@ def fetch_price(exchange, get_price_func, coin):
         return exchange, None, str(e)
 
 
-def get_all_prices(coin):
+def get_coin_price(coin):
     coin = coin.lower()
 
     # All available exchanges
