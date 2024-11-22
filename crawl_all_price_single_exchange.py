@@ -36,10 +36,11 @@ def get_all_prices(exchange_name):
     get_price_func = exchanges[exchange_name].get_price
     with ThreadPoolExecutor(max_workers=len(interesting_coins)) as executor:
         futures = {
-            executor.submit(fetch_price, exchange_name, get_price_func, coin): coin for coin in interesting_coins
+            executor.submit(fetch_price, get_price_func, coin): coin for coin in interesting_coins
         }
         results = [future.result() for future in futures]
     valid_results = [(coin, price) for coin, price, error in results if price is not None]
+    return valid_results
 
 
 if __name__ == "__main__":
