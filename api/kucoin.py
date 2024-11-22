@@ -3,6 +3,6 @@ import requests
 
 def get_price(coin):
     url = f"https://api.kucoin.com/api/v1/market/orderbook/level1?symbol={coin.upper()}-USDT"
-    response = requests.get(url)
+    response = requests.get(url,timeout=1)
     data = response.json()
     return float(data['data']['price'])

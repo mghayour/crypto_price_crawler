@@ -8,7 +8,7 @@ TON = 'https://api.coinpaprika.com/v1/tickers/ton-toncoin'
 def get_price():
     # Get the floor price in TON from fragment.com
     url = 'https://fragment.com/numbers?filter=sale'
-    response = requests.get(url)
+    response = requests.get(url,timeout=1)
     soup = BeautifulSoup(response.text, 'html.parser')
 
     price_element = soup.find('div', class_='table-cell-value tm-value icon-before icon-ton')
