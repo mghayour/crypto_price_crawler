@@ -4,7 +4,7 @@ import argparse
 import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
-
+import json
 
 exchanges = {
     "bitrue": bitrue, 
@@ -49,9 +49,24 @@ def get_all_prices(exchange_name):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Cryptocurrency crawling API client')
     parser.add_argument('--exchange', help='Exchange name')
+    parser.add_argument('--output', default="", help='Exchange name')
     args = parser.parse_args()
     if args.exchange not in exchanges:
         raise ValueError("Unsupported exchange: {}".format(args.exchange))
 
+    start_time = time.time()
     prices = get_all_prices(args.exchange)
-    print(prices)
+    end_time = time.time()
+    print("get_all_prices time", end_time-start_time)
+    price_dict = {}
+    price_dict['timestamp']=(end_time+start_time)/2
+    for coin, price in prices:
+        price_dict[coin] = price
+    
+    if args.output == "":
+        print(json.dumps(price_dict, indent=2))
+    else:
+        output = args.output
+        with open(output, 'a') as f:
+            json.dump(price_dict, f)
+            f.write('\n')
