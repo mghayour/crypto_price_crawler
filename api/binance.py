@@ -16,7 +16,8 @@ def get_all_prices():
         return None
     prices = []
     for item in data:
-        prices.append((
-            (item['symbol'], item['price'])
-        ))
+        if 'USDT' in item['symbol']:
+            prices.append((
+                (item['symbol'], item['price'])
+            ))
     return prices

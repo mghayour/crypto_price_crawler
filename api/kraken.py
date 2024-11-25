@@ -16,8 +16,9 @@ def get_all_prices():
     data = data['result']
     prices = []
     for key in data:
-        prices.append((
-            (key, data[key]['c'][0])
-        ))
+        if 'USD' in key:
+            prices.append((
+                (key, data[key]['c'][0])
+            ))
     return prices
 
